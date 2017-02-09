@@ -1,0 +1,128 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title>用户编辑</title>
+    <meta name="description" content=""/>
+    <meta name="keywords" content="index"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="renderer" content="webkit"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <meta name="apple-mobile-web-app-title" content=""/>
+    <link rel="stylesheet" href="/css/amazeui.min.css"/>
+    <link rel="stylesheet" href="/css/admin.css"/>
+    <link rel="stylesheet" href="/css/app.css"/>
+</head>
+
+<body>
+
+<div class="tpl-portlet-components">
+    <div class="tpl-block" style="padding-top: 30px;">
+        <div class="am-g tpl-amazeui-form">
+            <div class="am-u-sm-12 am-u-md-9">
+                <form class="am-form am-form-horizontal" id="user-edit-form" th:object="${user}" th:method="post"
+                      th:action="@{/admin/user/save}">
+                    <input type="hidden" th:field="*{id}"/>
+                    <div class="am-form-group">
+                        <label for="user-name" class="am-u-sm-3 am-form-label">用户名</label>
+                        <div class="am-u-sm-9">
+                            <input type="text" id="user-name" placeholder="用户名" required="required" minlength="3"
+                                   th:field="*{username}"/>
+                        </div>
+                    </div>
+
+                    <div class="am-form-group">
+                        <label for="real-name" class="am-u-sm-3 am-form-label">姓名</label>
+                        <div class="am-u-sm-9">
+                            <input type="text" id="real-name" placeholder="姓名" th:field="*{realname}"/>
+                        </div>
+                    </div>
+
+                    <div class="am-form-group">
+                        <label for="user-QQ" class="am-u-sm-3 am-form-label">QQ</label>
+                        <div class="am-u-sm-9">
+                            <input type="number" pattern="[0-9]*" id="user-QQ" placeholder="输入你的QQ号码" th:field="*{qq}"/>
+                        </div>
+                    </div>
+
+                    <div class="am-form-group">
+                        <label for="user-email" class="am-u-sm-3 am-form-label">电子邮件</label>
+                        <div class="am-u-sm-9">
+                            <input type="email" id="user-email" placeholder="输入你的电子邮件" th:field="*{email}"/>
+                        </div>
+                    </div>
+
+                    <div class="am-form-group">
+                        <label for="user-phone" class="am-u-sm-3 am-form-label">电话</label>
+                        <div class="am-u-sm-9">
+                            <input type="tel" id="user-phone" placeholder="输入你的电话号码" th:field="*{tel}"/>
+                        </div>
+                    </div>
+                    <div class="am-form-group">
+                        <label for="user-type" class="am-u-sm-3 am-form-label">用户类型</label>
+                        <div class="am-u-sm-9">
+                            <select id="user-type" th:field="*{type}">
+                                <option value="1">普通用户</option>
+                                <option value="2">管理员</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!--<div class="am-form-group">-->
+                    <!--<label for="user-intro" class="am-u-sm-3 am-form-label">简介 / Intro</label>-->
+                    <!--<div class="am-u-sm-9">-->
+                    <!--<textarea class="" rows="5" id="user-intro" placeholder="输入个人简介"></textarea>-->
+                    <!--<small>250字以内写出你的一生...</small>-->
+                    <!--</div>-->
+                    <!--</div>-->
+
+                    <div class="am-form-group">
+                        <div class="am-u-sm-9 am-u-sm-push-3">
+                            <button type="button" class="am-btn am-btn-primary" th:type="submit">保存</button>
+                            <button type="button" class="am-btn am-btn-default"
+                                    onclick="setIframeSrc('/admin/user')">返回
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/amazeui.min.js"></script>
+<script src="/js/app.js"></script>
+<script src="/js/common.js"></script>
+<script language="JavaScript">
+    $(function () {
+        $('#user-edit-form').validator({
+            onValid: function (validity) {
+                $(validity.field).closest('.am-u-sm-9').find('.am-alert').hide();
+            },
+
+            onInValid: function (validity) {
+                var $field = $(validity.field);
+                var $group = $field.closest('.am-u-sm-9');
+                var $alert = $group.find('.am-alert');
+                // 使用自定义的提示信息 或 插件内置的提示信息
+                var msg = $field.data('validationMessage') || this.getValidationMessage(validity);
+
+                if (!$alert.length) {
+                    $alert = $('<div class="am-alert am-alert-danger"></div>').hide().appendTo($group);
+                }
+
+                $alert.html(msg).show();
+            },
+
+            validate: function(validity) {
+
+            }
+        });
+    });
+</script>
+</body>
+
+</html>
