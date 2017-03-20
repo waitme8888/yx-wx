@@ -1,0 +1,15 @@
+@startuml
+==getMap==
+ThreadLocal -> Thread: Thread.currentThread()
+Thread -> ThreadLocalMap: this.threadLocals
+ThreadLocalMap -> ThreadLocal: Thread.threadLocals
+==set==
+ThreadLocal -> ThreadLocalMap: set(this, T value)
+ThreadLocalMap -> Entry: set(ThreadLocal key, T value)
+Entry ->Entry : T value
+==get==
+ThreadLocal -> ThreadLocalMap: get(this)
+ThreadLocalMap -> Entry: get(ThreadLocal key)
+Entry ->ThreadLocal : T value
+
+@enduml
